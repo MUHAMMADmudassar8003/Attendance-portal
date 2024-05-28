@@ -8,15 +8,19 @@ const NavbarSearch = () => {
       id="search-bar"
       label="Search"
       size="small"
-      variant="outlined"
+      variant="standard"
       sx={{
-        backgroundColor: "white",
-        borderRadius: "20px", // Adjust the border radius as needed
-        "& .MuiOutlinedInput-root": {
-          border: "none",
+        "& .MuiInputBase-root": {
+          backgroundColor: "transparent",
+          borderRadius: "20px",
         },
-        "& .MuiOutlinedInput-input": {
-          padding: "10px", // Adjust the padding as needed
+        "& .MuiInputLabel-root": {
+          paddingLeft: "10px", // Add left padding to the label
+        },
+        "& .MuiInputBase-input": {
+          paddingLeft: "10px", // Add left padding to the input
+          paddingTop: "10px", // Adjust padding as needed
+          paddingBottom: "10px", // Adjust padding as needed
         },
       }}
       InputProps={{
