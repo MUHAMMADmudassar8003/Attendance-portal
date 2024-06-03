@@ -395,7 +395,7 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "#2C2C2C" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#414a4c" }}>
         <Toolbar>
         
           <Box
@@ -407,6 +407,7 @@ export default function Navbar() {
             alt="Logo"
             src={logo}
           />
+          <p>Dashboard</p>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
