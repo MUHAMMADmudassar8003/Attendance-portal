@@ -7,7 +7,8 @@ const LeaveApplicationPage = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [remarks, setRemarks] = useState('');
-    const [openDialog, setOpenDialog] = useState(false); // State for dialog
+    const [openTotalDaysDialog, setOpenTotalDaysDialog] = useState(false); // State for total days dialog
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false); // State for success dialog
     const [totalDays, setTotalDays] = useState('');
 
     const calculateTotalDays = () => {
@@ -21,11 +22,16 @@ const LeaveApplicationPage = () => {
     const handleApply = () => {
         const totalDays = calculateTotalDays();
         setTotalDays(totalDays);
-        setOpenDialog(true); // Open dialog
+        setOpenTotalDaysDialog(true); // Open total days dialog
     };
 
-    const handleCloseDialog = () => {
-        setOpenDialog(false); // Close dialog
+    const handleCloseTotalDaysDialog = () => {
+        setOpenTotalDaysDialog(false); // Close total days dialog
+        setOpenSuccessDialog(true); // Open success dialog
+    };
+
+    const handleCloseSuccessDialog = () => {
+        setOpenSuccessDialog(false); // Close success dialog
     };
 
     return (
@@ -62,13 +68,23 @@ const LeaveApplicationPage = () => {
                     Apply
                 </Button>
                 {/* Dialog to display total days */}
-                <Dialog open={openDialog} onClose={handleCloseDialog}>
+                <Dialog open={openTotalDaysDialog} onClose={handleCloseTotalDaysDialog}>
                     <DialogTitle>Total Days</DialogTitle>
                     <DialogContent>
                         <Typography>{`Total number of days: ${totalDays}`}</Typography>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleCloseDialog}>OK</Button>
+                        <Button onClick={handleCloseTotalDaysDialog}>OK</Button>
+                    </DialogActions>
+                </Dialog>
+                {/* Dialog to display success message */}
+                <Dialog open={openSuccessDialog} onClose={handleCloseSuccessDialog}>
+                    <DialogTitle>Success</DialogTitle>
+                    <DialogContent>
+                        <Typography sx={{ color: 'green' }}>Your leave application has been successfully submitted and is awaiting approval.</Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseSuccessDialog}>OK</Button>
                     </DialogActions>
                 </Dialog>
             </Paper>
