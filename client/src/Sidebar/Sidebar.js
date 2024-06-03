@@ -18,7 +18,7 @@ const Sidebar = () => {
             }}
         >
             <Typography variant="h6" sx={{ padding: '16px' }}>
-                Neo
+                IDAP
             </Typography>
             <List>
                 {['Dashboard', 'Reports', 'Performance', 'Training', 'Apply For Leave'].map((text, index) => (
