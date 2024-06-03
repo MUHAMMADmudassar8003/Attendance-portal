@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Paper, Typography } from '@mui/material';
+import { Box, TextField, Button, Paper, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 const LeaveApplicationPage = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const [totalDays, setTotalDays] = useState('');
     const [remarks, setRemarks] = useState('');
+    const [openDialog, setOpenDialog] = useState(false); // State for dialog
+    const [totalDays, setTotalDays] = useState('');
+
+    const calculateTotalDays = () => {
+        const start = startDate;
+        const end = endDate;
+        const diffTime = Math.abs(end - start);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    };
 
     const handleApply = () => {
-        // Logic for applying leave
-        console.log('Leave applied from:', startDate, 'to', endDate);
-        console.log('Total days:', totalDays);
-        console.log('Remarks:', remarks);
+        const totalDays = calculateTotalDays();
+        setTotalDays(totalDays);
+        setOpenDialog(true); // Open dialog
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false); // Close dialog
     };
 
     return (
@@ -38,13 +50,6 @@ const LeaveApplicationPage = () => {
                 </Box>
                 <Box sx={{ display: 'flex', gap: 2, marginTop: 2 }}>
                     <TextField
-                        label="Total Number of Days"
-                        type="number"
-                        value={totalDays}
-                        onChange={(e) => setTotalDays(e.target.value)}
-                        fullWidth
-                    />
-                    <TextField
                         label="Remarks"
                         value={remarks}
                         onChange={(e) => setRemarks(e.target.value)}
@@ -56,6 +61,16 @@ const LeaveApplicationPage = () => {
                 <Button variant="contained" color="primary" sx={{ marginTop: 2 }} onClick={handleApply}>
                     Apply
                 </Button>
+                {/* Dialog to display total days */}
+                <Dialog open={openDialog} onClose={handleCloseDialog}>
+                    <DialogTitle>Total Days</DialogTitle>
+                    <DialogContent>
+                        <Typography>{`Total number of days: ${totalDays}`}</Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDialog}>OK</Button>
+                    </DialogActions>
+                </Dialog>
             </Paper>
         </Box>
     );
