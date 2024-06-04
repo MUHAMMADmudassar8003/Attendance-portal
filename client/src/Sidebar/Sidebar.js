@@ -22,7 +22,7 @@ const Sidebar = () => {
                 IDAP
             </Typography>
             <List>
-                {['Dashboard', 'Reports', 'Performance', 'Training', 'Apply For Leave'].map((text, index) => (
+                {['Dashboard', 'Reports', 'Attendance Record Page', 'Training', 'Apply For Leave', 'Records'].map((text, index) => (
                     <ListItem button key={text} component={Link} to={text === 'Dashboard' ? '/' : `/${text.toLowerCase().replace(/\s+/g, '-')}`}>
                         <ListItemText primary={text} />
                     </ListItem>
