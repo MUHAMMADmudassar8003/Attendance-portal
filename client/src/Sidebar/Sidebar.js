@@ -14,6 +14,7 @@ const Sidebar = () => {
                     boxSizing: 'border-box',
                     backgroundColor: '#2e3b4e',
                     color: 'white',
+                    marginTop: '64px', // Adjust this if Navbar height changes
                 },
             }}
         >
