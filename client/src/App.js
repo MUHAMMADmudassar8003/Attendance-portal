@@ -1,3 +1,5 @@
+// src/App.js
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
@@ -6,21 +8,9 @@ import Sidebar from './Sidebar/Sidebar';
 import LeaveApplicationPage from './Dashboard/LeaveApplicationPage';
 import RecordsPage from './Dashboard/RecordsPage';
 import AttendanceRecordPage from './Dashboard/AttendanceRecordPage';
+//import Navbar from './Navbar/Navbar'; // Import the Navbar
 
 function App() {
-// <<<<<<< HEAD
-//   return (
-//     <Router>
-//       <div className="App">
-//         {/* <Sidebar /> */}
-//         <Routes>
-//           <Route path="/" element={<Dashboard />} />
-//           <Route path="/apply-for-leave" element={<LeaveApplicationPage />} />
-//         </Routes>
-//       </div>
-//     </Router>
-// //   );
-// =======
     return (
         <Router>
             <div className="App">
@@ -34,7 +24,6 @@ function App() {
             </div>
         </Router>
     );
-// >>>>>>> 1f7306a5116725de569dff503b0b11ede7ff2624
 }
 
 export default App;
