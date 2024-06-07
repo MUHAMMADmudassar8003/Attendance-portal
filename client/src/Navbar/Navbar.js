@@ -65,7 +65,6 @@ export default function Navbar() {
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
-    setIsProfileOpen(true);
   };
 
   const handleMobileMenuClose = () => {
@@ -79,6 +78,12 @@ export default function Navbar() {
 
   const handleProfileClose = () => {
     setIsProfileOpen(false);
+    handleMenuClose();
+  };
+
+  const handleProfileClick = () => {
+    setIsProfileOpen(true);
+    handleMenuClose();
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -102,8 +107,8 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleProfileMenuOpen}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
   );
 
@@ -163,7 +168,6 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#2e3b4e" }}>
         <Toolbar>
-        
           <Box
             component="img"
             sx={{
