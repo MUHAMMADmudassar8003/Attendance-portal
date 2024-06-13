@@ -8,10 +8,11 @@ const UserProfilePopup = ({ onClose }) => {
     // Dummy user data
     const userData = {
         image: 'https://via.placeholder.com/150', // Placeholder image URL
-        name: 'John Doe',
         id: '12345',
-        email: 'john.doe@example.com',
-        contact: '+1234567890',
+        Designation: 'Manager IT',
+        name: 'Muhammad Mudassar',
+        email: 'Muhammad.Mudassar@idap.pk',
+        contact: '+923036227739',
     };
 
     return (
@@ -58,6 +59,7 @@ const UserProfilePopup = ({ onClose }) => {
                     {userData.name}
                 </Typography>
                 <Typography variant="body1">ID: {userData.id}</Typography>
+                <Typography variant="body1">Designation: {userData.Designation}</Typography>
                 <Typography variant="body1">Email: {userData.email}</Typography>
                 <Typography variant="body1">Contact #: {userData.contact}</Typography>
             </Paper>
