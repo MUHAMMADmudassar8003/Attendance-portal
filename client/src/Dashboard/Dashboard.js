@@ -3,7 +3,6 @@ import {
   Box,
   Paper,
   Typography,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -14,8 +13,18 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import Navbar from "../Navbar/Navbar";
-import Sidebar from "../Sidebar/Sidebar";
+import {
+  BarChart,
+  Bar,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
+// import Navbar from "../Navbar/Navbar";
+// import Sidebar from "../Sidebar/Sidebar";
 
 const Dashboard = () => {
   const attendanceData = [
@@ -34,62 +43,79 @@ const Dashboard = () => {
     "Punch out at 7:00 PM",
   ];
 
+  const statisticsData = [
+    { name: 'Today', hours: 3.45 },
+    { name: 'This Week', hours: 28 },
+    { name: 'This Month', hours: 90 },
+    { name: 'Remaining', hours: 70 },
+  ];
+
+  const notifications = [
+    "Team meeting at 3:00 PM",
+    "Project deadline on Friday",
+    "HR workshop next Monday",
+  ];
+
   return (
     <>
-      <Navbar />
-      <Sidebar />
+      {/* <Navbar /> */}
+      {/* <Sidebar /> */}
       
       <Box
         sx={{
           padding: 3,
-          marginTop: '64px',  // Adjust this value based on the height of your Navbar
+          marginTop: '0px',  // Adjust this value based on the height of your Navbar
           marginLeft: '240px',  // Adjust if your Sidebar has a fixed width
           display: "grid",
           gap: 2,
           gridTemplateColumns: "repeat(2, 1fr)",
         }}
       >
-        <Paper sx={{ padding: 2 }}>
-          <Typography variant="h6">Timesheet</Typography>
+        <Paper sx={{ padding: 2, backgroundColor: 'grey.100' }}>
+          <Typography variant="h6" sx={{ color: 'orange' }}>Timesheet</Typography>
           <Typography variant="body1">Punch in at</Typography>
-          <Typography variant="h3" sx={{ marginY: 2 }}>
+          <Typography variant="h3" sx={{ marginY: 2, color: 'orange' }}>
             3.45 hrs
           </Typography>
-          <Button variant="contained" color="success">
+          {/* <Button variant="contained" color="success">
             Punch Out
-          </Button>
-          <Typography variant="body2" sx={{ marginTop: 2 }}>
+          </Button> */}
+          <Typography variant="body2" sx={{ marginTop: 2, color: 'grey.800' }}>
             BREAK: 1.21 hrs
           </Typography>
-          <Typography variant="body2">Overtime: 3 hrs</Typography>
+          <Typography variant="body2" sx={{ color: 'grey.800' }}>Overtime: 3 hrs</Typography>
         </Paper>
 
-        <Paper sx={{ padding: 2 }}>
-          <Typography variant="h6">Statistics</Typography>
-          <Typography variant="body2">Today: 3.45/8 hrs</Typography>
-          <Typography variant="body2">This Week: 28/40 hrs</Typography>
-          <Typography variant="body2">This Month: 90/160 hrs</Typography>
-          <Typography variant="body2">Remaining: 70/160 hrs</Typography>
-          <Typography variant="body2">Overtime: 5 hrs</Typography>
+        <Paper sx={{ padding: 2, backgroundColor: 'grey.100' }}>
+          <Typography variant="h6" sx={{ color: 'orange' }}>Statistics</Typography>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={statisticsData}>
+              <CartesianGrid stroke="#ccc" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="hours" fill="orange" />
+            </BarChart>
+          </ResponsiveContainer>
         </Paper>
 
-        <Paper sx={{ padding: 2 }}>
-          <Typography variant="h6">Today Activity</Typography>
+        <Paper sx={{ padding: 2, backgroundColor: 'grey.100' }}>
+          <Typography variant="h6" sx={{ color: 'orange' }}>Daily Assigned Task</Typography>
           <List>
             {activityLogs.map((text, index) => (
               <ListItem key={index}>
-                <ListItemText primary={text} />
+                <ListItemText primary={text} sx={{ color: 'grey.800' }} />
               </ListItem>
             ))}
           </List>
         </Paper>
 
-        <Paper sx={{ padding: 2 }}>
-          <Typography variant="h6">Attendance List</Typography>
+        <Paper sx={{ padding: 2, backgroundColor: 'grey.100' }}>
+          <Typography variant="h6" sx={{ color: 'orange' }}>Attendance List</Typography>
           <TableContainer>
             <Table>
               <TableHead>
-                <TableRow>
+                <TableRow sx={{ backgroundColor: 'grey.300' }}>
                   <TableCell>S. No</TableCell>
                   <TableCell>Date</TableCell>
                   <TableCell>Punch In</TableCell>
@@ -116,9 +142,15 @@ const Dashboard = () => {
           </TableContainer>
         </Paper>
 
-        <Paper sx={{ padding: 2, gridColumn: "span 2" }}>
-          <Typography variant="h6">Daily Records</Typography>
-          {/* Implement the chart component here */}
+        <Paper sx={{ padding: 2, backgroundColor: 'grey.100', gridColumn: 'span 2' }}>
+          <Typography variant="h6" sx={{ color: 'orange' }}>Upcoming Notifications</Typography>
+          <List>
+            {notifications.map((notification, index) => (
+              <ListItem key={index}>
+                <ListItemText primary={notification} sx={{ color: 'grey.800' }} />
+              </ListItem>
+            ))}
+          </List>
         </Paper>
       </Box>
     </>

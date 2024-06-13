@@ -8,13 +8,18 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import LeaveIcon from "@mui/icons-material/EventBusy"; // Import the appropriate icon for leave
 import logo from "./logo.png";
 import UserProfilePopup from './UserProfilePopup';
+import Sidebar from "../Sidebar/Sidebar";
+import { useLocation, useNavigate } from "react-router-dom";
+import PendingLeavePopup from "../Dashboard/PendingLeavePopup"; // Import the PendingLeavePopup component
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -55,13 +60,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Navbar() {
+const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isPendingLeaveOpen, setIsPendingLeaveOpen] = useState(false); // State for Pending Leave Popup
+  const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const location = useLocation();
+  const pageTitle = {
+    "/": "Dashboard",
+    "/reports": "Reports",
+    "/attendance-record-page": "Attendance Record",
+    "/training": "Training",
+    "/apply-for-leave": "Apply For Leave",
+    "/records": "Records",
+  }[location.pathname] || "Dashboard";
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -86,8 +103,23 @@ export default function Navbar() {
     handleMenuClose();
   };
 
+  const handlePendingLeaveClick = () => {
+    setIsPendingLeaveOpen(true);
+    handleMobileMenuClose();
+  };
+
+  const handlePendingLeaveClose = () => {
+    setIsPendingLeaveOpen(false);
+  };
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    navigate('/login');
+    handleMenuClose();
   };
 
   const menuId = "primary-search-account-menu";
@@ -108,7 +140,7 @@ export default function Navbar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -161,23 +193,37 @@ export default function Navbar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+      <MenuItem onClick={handlePendingLeaveClick}>
+        <IconButton
+          size="large"
+          aria-label="pending leave"
+          color="inherit"
+        >
+          <Badge badgeContent={2} color="error">
+            <LeaveIcon />
+          </Badge>
+        </IconButton>
+        <p>Pending Leave</p>
+      </MenuItem>
     </Menu>
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "#2e3b4e" }}>
-        <Toolbar>
+    <Box sx={{ display: 'flex' }}>
+      <AppBar position="fixed" sx={{ backgroundColor: "grey.600", zIndex: 1300, height: 56 }}>
+        <Toolbar sx={{ minHeight: 56 }}>
           <Box
             component="img"
             sx={{
-              height: 40,
+              height: 32, // Adjust the height to match the smaller navbar
               marginRight: 2,
             }}
             alt="Logo"
             src={logo}
           />
-          <p>Dashboard</p>
+          <Typography variant="h6" noWrap sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
+            {pageTitle}
+          </Typography>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -209,6 +255,16 @@ export default function Navbar() {
             </IconButton>
             <IconButton
               size="large"
+              aria-label="pending leave"
+              color="inherit"
+              onClick={handlePendingLeaveClick}
+            >
+              <Badge badgeContent={2} color="error">
+                <LeaveIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
@@ -233,9 +289,16 @@ export default function Navbar() {
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-      {isProfileOpen && <UserProfilePopup onClose={handleProfileClose} />}
+      <Sidebar sx={{ position: 'fixed', zIndex: 1200 }} />
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+        {renderMobileMenu}
+        {renderMenu}
+        {isProfileOpen && <UserProfilePopup onClose={handleProfileClose} />}
+        {isPendingLeaveOpen && <PendingLeavePopup open={isPendingLeaveOpen} onClose={handlePendingLeaveClose} />}
+        {/* Add your main content here */}
+      </Box>
     </Box>
   );
 }
+
+export default Navbar;
